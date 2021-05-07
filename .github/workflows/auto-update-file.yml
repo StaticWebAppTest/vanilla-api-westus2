@@ -1,5 +1,5 @@
 
-name: auto update file
+name: AutoUpdateFile
 on: [workflow_dispatch]
 
 jobs:
