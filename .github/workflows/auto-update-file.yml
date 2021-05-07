@@ -16,3 +16,17 @@ jobs:
         file-path: "api/GetMessage/index.js"
         github-token: ${{ secrets.GITHUB_TOKEN }}
         branch: master
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Trigger workflow
+      run: |
+        $uri = "https://api.github.com/repos/StaticWebAppTest/vanilla-api-westus2/actions/workflows//azure-static-web-apps-ashy-hill-0339df41e.yml/dispatches" 
+        $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+        $headers.Add("Authorization", "Bearer ${{secrets.WORKFLOW_PAT}}")
+        $headers.Add("Accept", "application/vnd.github.everest-preview+json")
+        $headers.Add("Content-Type", "application/json")
+
+        $response = Invoke-RestMethod -Uri $uri -Headers $headers -Body $body -Method POST
+        $response | ConvertTo-Json
