@@ -24,6 +24,11 @@ jobs:
         $headers.Add("Accept", "application/vnd.github.everest-preview+json")
         $headers.Add("Content-Type", "application/json")
 
+        $body = "{
+                    `"ref`": `"master`",
+                    `"inputs`": {
+                    }
+                }"
         $response = Invoke-RestMethod -Uri $uri -Headers $headers -Body $body -Method POST
         $response | ConvertTo-Json
     
