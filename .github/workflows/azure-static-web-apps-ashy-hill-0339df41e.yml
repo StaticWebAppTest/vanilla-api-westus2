@@ -34,7 +34,22 @@ jobs:
           api_location: "api" # Api source code path - optional
           skip_app_build: true
           ###### End of Repository/Build Configurations ######
-
+  
+  Sofy-Azure-Webapp-Integration:
+          needs: [build_and_deploy_job]
+          if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+          runs-on: ubuntu-latest
+          name: Sofy Validation Job
+          steps:
+            - name: Upload and Send to Sofy
+              id: swaj
+              uses: SofyDotAi/SofyAzureWebappAction@v1.1
+              with:
+                website_url: https://ashy-hill-0339df41e.azurestaticapps.net
+                subscription_id: 'cbfbefec-b4cc-4f55-a43e-b0228688df43'
+            - name: Get the output time
+              run: echo "The time was ${{ steps.hello.outputs.time }}"
+      
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest
